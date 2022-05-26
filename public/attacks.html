@@ -1,0 +1,115 @@
+<html>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+
+  <!-- header -->
+  <h1>Pokemon DB</h1>
+
+  <!-- navbar -->
+  [ <a href="pokemon.html">Pokemon</a> | Attacks | <a href="types.html">Types</a> | <a href="generations.html">Generations</a> ]
+
+  <div id="browse">
+  <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+  <table border="1" cellpadding="5">
+    <tr>
+      <th><a href="#" onClick="newAttack()">New</a></th>
+      <th></th>
+      <th>id</th>
+      <th>Attack</th>
+      <th>Type</th>
+      <th>Power</th>
+      <th>Accuracy</th>
+      <th>PP</th>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateAttack('this.attackID')">Edit</a></td>
+      <td><a href="#" onclick="deleteAttack('this.attackID')">Delete</a></td>
+      <td align="right" >1</td>
+      <td >Ember</td>
+      <td>Fire</td>
+      <td align="center">40</td>
+      <td align="center">100</td>
+      <td align="center">25</td>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateAttack('this.attackID')">Edit</a></td>
+      <td><a href="#" onclick="deleteAttack('this.attackID')">Delete</a></td>
+      <td align="right" >2</td>
+      <td >Leech Seed</td>
+      <td>Grass</td>
+      <td align="center">NULL</td>
+      <td align="center">90</td>
+      <td align="center">10</td>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateAttack('this.attackID')">Edit</a></td>
+      <td><a href="#" onclick="deleteAttack('this.attackID')">Delete</a></td>
+      <td align="right" >3</td>
+      <td >Vine Whip</td>
+      <td>Grass</td>
+      <td align="center">35</td>
+      <td align="center">100</td>
+      <td align="center">25</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  </div><!-- browse -->
+
+  <div id="insert">
+      <form method="POST" id="addAttack">
+          <legend><strong>Add Attack</strong></legend>
+            <fieldset class="fields">
+              <label> Attack Name: </label> <input type="text" name="name">
+              <label> Type: </label> <select name="type">
+                <option value="0">&nbsp;</option>
+                  <option value="1">Grass</option>
+                  <option value="2">Fire</option>
+                  <option value="3">Ground</option>
+                  <option value="3">Flying</option>
+                  </select>
+              <label> Power: </label> <input type="number" name="power">
+              <label> Accuracy: </label> <input type="number" name="accuracy">
+              <label> PP: </label> <input type="number" name="PP">
+            </fieldset>
+            <input class="btn" type="submit" id="addAttack" value="Add Attack">
+            <input class="btn" type="button" value="Cancel" onClick="browseAttacks()">
+    </form> 
+  </div><!-- insert -->
+
+  <p>&nbsp;</p>
+  <div id="update">
+      <form method="POST" id="UpdateAttack">
+          <legend><strong>Update Attack</strong></legend>
+          <fieldset class="fields">
+              <label> Attack Name: </label> <input type="text" name="name">
+              <label> Type: </label> <select name="type">
+                <option value="0">&nbsp;</option>
+                  <option value="1">Grass</option>
+                  <option value="2">Fire</option>
+                  <option value="3">Ground</option>
+                  <option value="3">Flying</option>
+                  </select>
+              <label> Power: </label> <input type="number" name="power">
+              <label> Accuracy: </label> <input type="number" name="accuracy">
+              <label> PP: </label> <input type="number" name="PP">
+          </fieldset>
+            <input class="btn" type="submit" id="UpdateSaveAttack" value="Save Changes">
+            <input class="btn" type="button" value="Cancel" onClick="browseAttacks()">
+    </form> 
+  </div><!-- update -->
+
+  <p>&nbsp;</p>
+  <div id="delete" style="display: block">
+    <form method="POST" id="deleteAttack">
+        <legend><strong>Delete Attack</strong></legend>
+            <fieldset class="fields">
+              <p>Are you sure you wish to delete the following?</p>
+              <input type="hidden" name="attackID" id="deleteattackID" value="1">
+              <label><strong>ID:</strong></label> 1 <div/>
+              <label> <strong>Name:</strong> </label> Ember
+            </fieldset>
+          <input class="btn" type="submit" id="DeleteAttack" value="Delete Attack">
+          <input class="btn" type="button" value="cancel" onClick="browseAttacks()">
+    </form> 
+  </div><!-- delete -->
+
+</html>
