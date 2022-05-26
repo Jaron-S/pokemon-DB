@@ -6,7 +6,7 @@ PORT        = 59432;                 // Set a port number at the top so it's eas
 
 
 // Database
-var db = require('./db-connector')
+//var db = require('./db-connector')
 
 // Route Handler
 app.use(express.urlencoded({

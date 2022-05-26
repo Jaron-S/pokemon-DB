@@ -1,5 +1,53 @@
 <html>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <head>
+    <title>Types</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="JavaScript">
+        function showform(dowhat) {
+          /*
+          * four DIVS: browse, insert, update, delete
+          * this function sets one visible the others not
+          */
+          if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+          }
+          else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+          }
+          else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+          }
+                else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+          }
+          else { //by default display browse
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+          }
+        }
+        function newType() { showform('insert'); }
+        function updateType(tid) { showform('update'); }
+        function deleteType(tid) { showform ('delete'); }
+        function browseTypes() { showform ('browse'); }
+        function showAll() { showform ('all'); }
+    </script>
+  </head>
+
+  <body onload="browseTypes()"></body>
 
   <!-- header -->
   <h1>Pokemon DB</h1>
@@ -11,67 +59,54 @@
   <p><a href="#" onClick="showAll()">Display all forms</a> </p>
   <table border="1" cellpadding="5">
     <tr>
-      <th><a href="#" onClick="newPokemon()">New</a></th>
+      <th><a href="#" onClick="newType()">New</a></th>
       <th></th>
       <th>id</th>
       <th>Name</th>
-      <th>Type 1</th>
-      <th>Type 2</th>
-      <th>Generation</th>
-      <th>preEvolution</th>
-      <th>postEvolution</th>
+      <th>Invulnerable Against</th>
     </tr>
     <tr>
-      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
+      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
       <td align="right" >1</td>
-      <td >Bulbasaur</td>
       <td>Grass</td>
-      <td>Poison</td>
-      <td align="center">1</td>
-      <td>null</td>
-      <td>Ivysaur</td>
+      <td>NULL</td>
     </tr>
     <tr>
-      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
+      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
       <td align="right" >2</td>
-      <td>Ivysaur</td>
-      <td>Grass</td>
-      <td>Poison</td>
-      <td align="center">1</td>
-      <td>Bulbasaur</td>
-      <td>Venusaur</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-      <td align="right" >3</td>
-      <td >Venusaur</td>
-      <td>Grass</td>
-      <td>Poison</td>
-      <td align="center">1</td>
-      <td>Venusaur</td>
-      <td>null</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-      <td align="right" >4</td>
-      <td >Charmander</td>
       <td>Fire</td>
-      <td>null</td>
-      <td align="center">1</td>
-      <td>null</td>
-      <td>null</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
+      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
+      <td align="right" >3</td>
+      <td>Ground</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
+      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
+      <td align="right" >3</td>
+      <td>Flying</td>
+      <td>Ground</td>
+    </tr>
+    <tr>
+      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
+      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
+      <td align="right" >3</td>
+      <td>Poison</td>
+      <td>NULL</td>
     </tr>
   </table>
   <p>&nbsp;</p>
   </div><!-- browse -->
 
   <div id="insert">
-      <form method="POST" id="addPokemon">
-          <legend><strong>Add Pokemon</strong></legend>
+      <form method="POST" id="addType">
+          <legend><strong>Add Type</strong></legend>
             <fieldset class="fields">
               <label> Name: </label> <input type="text" name="name">
               <label> Type 1: </label> <select name="type1">
@@ -99,8 +134,8 @@
 
   <p>&nbsp;</p>
   <div id="update">
-      <form method="POST" id="UpdatePokemon">
-          <legend><strong>Update Pokemon</strong></legend>
+      <form method="POST" id="UpdateType">
+          <legend><strong>Update Type</strong></legend>
           <fieldset class="fields">
             <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
             <label> Type 1: </label> <select name="type1">
@@ -122,23 +157,23 @@
             <label> Pre-Evolution: </label> <input type="text" name="gen">
             <label> Post-Evolution: </label> <input type="text" name="gen">
           </fieldset>
-            <input class="btn" type="submit" id="UpdateSavePokemon" value="Save Changes">
-            <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+            <input class="btn" type="submit" id="UpdateSaveType" value="Save Changes">
+            <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
     </form> 
   </div><!-- update -->
 
   <p>&nbsp;</p>
   <div id="delete" style="display: block">
-    <form method="POST" id="deletePokemon">
-        <legend><strong>Delete Pokemon</strong></legend>
+    <form method="POST" id="deleteType">
+        <legend><strong>Delete Type</strong></legend>
             <fieldset class="fields">
               <p>Are you sure you wish to delete the following?</p>
-              <input type="hidden" name="pokemonID" id="deletepokemonID" value="1">
+              <input type="hidden" name="typeID" id="deletetypeID" value="1">
               <label><strong>ID:</strong></label> 1
               <label> <strong>Name:</strong> </label> Bulbasaur
             </fieldset>
-          <input class="btn" type="submit" id="DeletePokemon" value="Delete Pokemon">
-          <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+          <input class="btn" type="submit" id="DeleteType" value="Delete Type">
+          <input class="btn" type="button" value="cancel" onClick="browseTypes()">
     </form> 
   </div><!-- delete -->
 
