@@ -53,8 +53,9 @@
   <h1>Pokemon DB</h1>
 
   <!-- navbar -->
-  [ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | Generations ]
+  [ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | Generations | <a href="pokemon_attacks.html">Pokemon Attacks</a> ]
 
+  <!-- body -->
   <div id="browse">
   <p><a href="#" onClick="showAll()">Display all forms</a> </p>
   <table border="1" cellpadding="5">
@@ -92,75 +93,42 @@
   </div><!-- browse -->
 
   <div id="insert">
-      <form method="POST" id="addPokemon">
-          <legend><strong>Add Pokemon</strong></legend>
+      <form method="POST" id="addGeneration">
+          <legend><strong>Add Generation</strong></legend>
             <fieldset class="fields">
-              <label> Name: </label> <input type="text" name="name">
-              <label> Type 1: </label> <select name="type1">
-                <option value="0">&nbsp;</option>
-                  <option value="1">Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                  </select>
-                  <label> Type 2: </label> <select name="type2">
-                    <option value="0">&nbsp;</option>
-                    <option value="1">Grass</option>
-                    <option value="2">Fire</option>
-                    <option value="3">Ground</option>
-                    <option value="3">Flying</option>
-                      </select>
-              <label> Generation: </label> <input type="number" name="gen">
-              <label> Pre-Evolution: </label> <input type="text" name="gen">
-              <label> Post-Evolution: </label> <input type="text" name="gen">
+              <label> Region: </label> <input type="text" name="region">
+              <label> Release Date: </label> <input type="date" name="releaseDate">
             </fieldset>
-            <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
-            <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+            <input class="btn" type="submit" id="addGeneration" value="Add Generation">
+            <input class="btn" type="button" value="Cancel" onClick="browseGenerations()">
     </form> 
   </div><!-- insert -->
 
   <p>&nbsp;</p>
   <div id="update">
-      <form method="POST" id="UpdatePokemon">
-          <legend><strong>Update Pokemon</strong></legend>
+      <form method="POST" id="UpdateGeneration">
+          <legend><strong>Update Generation</strong></legend>
           <fieldset class="fields">
-            <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
-            <label> Type 1: </label> <select name="type1">
-              <option value="0">&nbsp;</option>
-                <option value="1" selected>Grass</option>
-                <option value="2">Fire</option>
-                <option value="3">Ground</option>
-                <option value="3">Flying</option>
-                </select>
-                <label> Type 2: </label> <select name="type2">
-                  <option value="0">&nbsp;</option>
-                  <option value="1" selected>Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                  <option value="4" selected>Poison</option>
-                    </select>
-            <label> Generation: </label> <input type="number" name="gen">
-            <label> Pre-Evolution: </label> <input type="text" name="gen">
-            <label> Post-Evolution: </label> <input type="text" name="gen">
+            <label> Region: </label> <input type="text" name="region">
+            <label> Release Date: </label> <input type="date" name="releaseDate">
           </fieldset>
-            <input class="btn" type="submit" id="UpdateSavePokemon" value="Save Changes">
-            <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+            <input class="btn" type="submit" id="UpdateSaveGeneration" value="Save Changes">
+            <input class="btn" type="button" value="Cancel" onClick="browsePGenerations()">
     </form> 
   </div><!-- update -->
 
   <p>&nbsp;</p>
   <div id="delete" style="display: block">
-    <form method="POST" id="deletePokemon">
-        <legend><strong>Delete Pokemon</strong></legend>
+    <form method="POST" id="deleteGeneration">
+        <legend><strong>Delete Generation</strong></legend>
             <fieldset class="fields">
               <p>Are you sure you wish to delete the following?</p>
-              <input type="hidden" name="pokemonID" id="deletepokemonID" value="1">
-              <label><strong>ID:</strong></label> 1
-              <label> <strong>Name:</strong> </label> Bulbasaur
+              <input type="hidden" name="genID" id="deletegenID" value="1">
+              <label><strong>ID:</strong></label> 1 </p>
+              <label> <strong>Region:</strong> </label> Kanto
             </fieldset>
-          <input class="btn" type="submit" id="DeletePokemon" value="Delete Pokemon">
-          <input class="btn" type="button" value="cancel" onClick="browsePeople()">
+          <input class="btn" type="submit" id="DeletePokemon" value="Delete Generation">
+          <input class="btn" type="button" value="cancel" onClick="browseGenerations()">
     </form> 
   </div><!-- delete -->
 

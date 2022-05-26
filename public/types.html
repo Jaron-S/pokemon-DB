@@ -53,8 +53,9 @@
   <h1>Pokemon DB</h1>
 
   <!-- navbar -->
-  [ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | Types | <a href="generations.html">Generations</a> ]
+  [ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | Types | <a href="generations.html">Generations</a> | <a href="pokemon_attacks.html">Pokemon Attacks</a> ]
 
+  <!-- body -->
   <div id="browse">
   <p><a href="#" onClick="showAll()">Display all forms</a> </p>
   <table border="1" cellpadding="5">
@@ -109,23 +110,15 @@
           <legend><strong>Add Type</strong></legend>
             <fieldset class="fields">
               <label> Name: </label> <input type="text" name="name">
-              <label> Type 1: </label> <select name="type1">
-                <option value="0">&nbsp;</option>
+              <label> Invulnerable Against: </label>
+                <select name="invulnerableAgainst">
+                  <option value="0">&nbsp;</option>
                   <option value="1">Grass</option>
                   <option value="2">Fire</option>
                   <option value="3">Ground</option>
                   <option value="3">Flying</option>
-                  </select>
-                  <label> Type 2: </label> <select name="type2">
-                    <option value="0">&nbsp;</option>
-                    <option value="1">Grass</option>
-                    <option value="2">Fire</option>
-                    <option value="3">Ground</option>
-                    <option value="3">Flying</option>
-                      </select>
-              <label> Generation: </label> <input type="number" name="gen">
-              <label> Pre-Evolution: </label> <input type="text" name="gen">
-              <label> Post-Evolution: </label> <input type="text" name="gen">
+                  <option value="4">Poison</option>
+                </select>
             </fieldset>
             <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
             <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
@@ -137,25 +130,24 @@
       <form method="POST" id="UpdateType">
           <legend><strong>Update Type</strong></legend>
           <fieldset class="fields">
-            <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
-            <label> Type 1: </label> <select name="type1">
+            <label> Name: </label>
+            <select name="invulnerableAgainst">
               <option value="0">&nbsp;</option>
-                <option value="1" selected>Grass</option>
+              <option value="1">Grass</option>
+              <option value="2">Fire</option>
+              <option value="3">Ground</option>
+              <option value="3">Flying</option>
+              <option value="4">Poison</option>
+            </select>
+            <label> Invulnerable Against: </label> 
+              <select name="invulnerableAgainst">
+                <option value="0">&nbsp;</option>
+                <option value="1">Grass</option>
                 <option value="2">Fire</option>
                 <option value="3">Ground</option>
                 <option value="3">Flying</option>
-                </select>
-                <label> Type 2: </label> <select name="type2">
-                  <option value="0">&nbsp;</option>
-                  <option value="1" selected>Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                  <option value="4" selected>Poison</option>
-                    </select>
-            <label> Generation: </label> <input type="number" name="gen">
-            <label> Pre-Evolution: </label> <input type="text" name="gen">
-            <label> Post-Evolution: </label> <input type="text" name="gen">
+                <option value="4">Poison</option>
+              </select>
           </fieldset>
             <input class="btn" type="submit" id="UpdateSaveType" value="Save Changes">
             <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
@@ -169,11 +161,11 @@
             <fieldset class="fields">
               <p>Are you sure you wish to delete the following?</p>
               <input type="hidden" name="typeID" id="deletetypeID" value="1">
-              <label><strong>ID:</strong></label> 1
-              <label> <strong>Name:</strong> </label> Bulbasaur
+              <label><strong>ID:</strong></label> 1 </p>
+              <label> <strong>Name:</strong> </label> Grass
             </fieldset>
           <input class="btn" type="submit" id="DeleteType" value="Delete Type">
-          <input class="btn" type="button" value="cancel" onClick="browseTypes()">
+          <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
     </form> 
   </div><!-- delete -->
 

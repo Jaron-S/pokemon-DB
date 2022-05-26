@@ -1,6 +1,6 @@
 <html>
   <head>
-  <title>Pokemon</title>
+  <title>Pokemon Attacks</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script language="JavaScript">
       function showform(dowhat) {
@@ -39,87 +39,68 @@
           document.getElementById('delete').style.display = 'none';
         }
       }
-      function newPokemon() { showform('insert'); }
-      function updatePokemon(pid) { showform('update'); }
-      function deletePokemon(pid) { showform ('delete'); }
-      function browsePokemon() { showform ('browse'); }
+      function newPokemonAttack() { showform('insert'); }
+      function updatePokemonAttack(paID) { showform('update'); }
+      function deletePokemonAttack(paID) { showform ('delete'); }
+      function browsePokemonAttacks() { showform ('browse'); }
       function showAll() { showform ('all'); }
   </script>
   </head>
 
-<body onload="browsePokemon()">
+<body onload="browsePokemonAttacks()">
 
 <!-- header -->
 <h1>Pokemon DB</h1>
 
 <!-- navbar -->
-[ Pokemon | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | <a href="generations.html">Generations</a> ]
+[ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | <a href="generations.html">Generations</a> | Pokemon Attacks ]
 
+<!-- body -->
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
 <table border="1" cellpadding="5">
   <tr>
-    <th><a href="#" onClick="newPokemon()">New</a></th>
+    <th><a href="#" onClick="newPokemonAttack()">New</a></th>
     <th></th>
     <th>id</th>
-    <th>Name</th>
-    <th>Type 1</th>
-    <th>Type 2</th>
-    <th>Generation</th>
-    <th>preEvolution</th>
-    <th>postEvolution</th>
+    <th>Pokemon</th>
+    <th>Attack</th>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
+    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
     <td align="right" >1</td>
-    <td >Bulbasaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
-    <td>null</td>
-    <td>Ivysaur</td>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-    <td align="right" >2</td>
-    <td>Ivysaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
     <td>Bulbasaur</td>
-    <td>Venusaur</td>
+    <td>Vine Whip</td>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
+    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
+    <td align="right" >2</td>
+    <td>Venusaur</td>
+    <td>Vine Whip</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
+    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
     <td align="right" >3</td>
-    <td >Venusaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
     <td>Venusaur</td>
-    <td>null</td>
+    <td>Leech Seed</td>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
+    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
     <td align="right" >4</td>
-    <td >Charmander</td>
-    <td>Fire</td>
-    <td>null</td>
-    <td align="center">1</td>
-    <td>null</td>
-    <td>null</td>
+    <td>Charmander</td>
+    <td>Ember</td>
   </tr>
 </table>
 <p>&nbsp;</p>
 </div><!-- browse -->
 
 <div id="insert">
-    <form method="POST" id="addPokemon">
-        <legend><strong>Add Pokemon</strong></legend>
+    <form method="POST" id="addPokemonAttack">
+        <legend><strong>Add Pokemon Attack</strong></legend>
           <fieldset class="fields">
             <label> Name: </label> <input type="text" name="name">
             <label> Type 1: </label> <select name="type1">
@@ -140,15 +121,15 @@
             <label> Pre-Evolution: </label> <input type="text" name="preEvolution">
             <label> Post-Evolution: </label> <input type="text" name="postEvolution">
           </fieldset>
-          <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
-          <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+          <input class="btn" type="submit" id="addPokemonAttack" value="Add Pokemon">
+          <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
 	</form> 
 </div><!-- insert -->
 
 <p>&nbsp;</p>
 <div id="update">
-    <form method="POST" id="UpdatePokemon">
-        <legend><strong>Update Pokemon</strong></legend>
+    <form method="POST" id="UpdatePokemonAttack">
+        <legend><strong>Update Pokemon Attack</strong></legend>
         <fieldset class="fields">
           <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
           <label> Type 1: </label> <select name="type1">
@@ -170,23 +151,23 @@
           <label> Pre-Evolution: </label> <input type="text" name="preEvolution">
           <label> Post-Evolution: </label> <input type="text" name="postEvolution" value="Venusaur">
         </fieldset>
-          <input class="btn" type="submit" id="UpdateSavePokemon" value="Save Changes">
-          <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+          <input class="btn" type="submit" id="UpdateSavePokemonAttack" value="Save Changes">
+          <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
 	</form> 
 </div><!-- update -->
 
 <p>&nbsp;</p>
 <div id="delete" style="display: block">
-  <form method="POST" id="deletePokemon">
-      <legend><strong>Delete Pokemon</strong></legend>
+  <form method="POST" id="deletePokemonAttack">
+      <legend><strong>Delete Pokemon Attack</strong></legend>
           <fieldset class="fields">
             <p>Are you sure you wish to delete the following?</p>
-            <input type="hidden" name="pokemonID" id="deletepokemonID" value="1">
-            <label><strong>ID:</strong></label> 1 <div/>
+            <input type="hidden" name="pokemon_attackID" id="deletePokemonAttackID" value="1">
+            <label><strong>ID:</strong></label> 1 </p>
             <label> <strong>Name:</strong> </label> Bulbasaur
           </fieldset>
-        <input class="btn" type="submit" id="DeletePokemon" value="Delete Pokemon">
-        <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+        <input class="btn" type="submit" id="DeletePokemonAttack" value="Delete Pokemon Attack">
+        <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
   </form> 
 </div><!-- delete -->
 
