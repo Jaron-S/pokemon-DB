@@ -1,8 +1,10 @@
 <html>
+  {{!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> --}}
   <head>
   <title>Pokemon</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script language="JavaScript">
+  
       function showform(dowhat) {
         /*
         * four DIVS: browse, insert, update, delete
@@ -41,7 +43,6 @@
       }
       function newPokemon() { showform('insert'); }
       function updatePokemon(pid) { showform('update'); }
-      function deletePokemon(pid) { showform ('delete'); }
       function browsePokemon() { showform ('browse'); }
       function showAll() { showform ('all'); }
   </script>
@@ -56,7 +57,7 @@
 <table border="1" cellpadding="5" id="pokemon-table">
   <thead>
     <tr>
-      <th><a href="#" onClick="newPokemon()">New</a></th>
+      <th><button onClick="newPokemon()">New</button></th>
       <th></th>
       <th>id</th>
       <th>Name</th>
@@ -69,9 +70,9 @@
   </thead>
   <tbody>
     {{#each data}}
-    <tr>
-      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+    <tr data-value="{this.pokemonID}">
+      <td><button onClick="updatePokemon({{this.pokemonID}})">Edit</button></td>
+      <td><button onClick="deletePokemon({{this.pokemonID}})">Delete</button></td>
       <td align="right">{{this.pokemonID}}</td>
       <td>{{this.pokemonName}}</td>
       <td>{{this.typeID1}}</td>
@@ -83,12 +84,13 @@
     {{/each}}
   </tbody>
 </table>
+<script src="./js/delete_pokemon.js"></script>
 <p>&nbsp;</p>
 
 </div><!-- browse -->
 
 <div id="insert">
-  <form method="POST" id="add-pokemon-form-ajax">
+  <form method="POST" id="add-pokemon" action="pokemon-add">
       <legend><strong>Add Pokemon</strong></legend>
         <fieldset class="fields">
           <label> Name: </label> <input type="text" name="input-name" id="input-name">
@@ -113,12 +115,11 @@
         <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
 	</form> 
-  {{!-- <script src="./js/add_pokemon.js"></script> --}}
 </div><!-- insert -->
 
 <p>&nbsp;</p>
 <div id="update">
-    <form method="POST" id="UpdatePokemon">
+    <form method="POST" id="update-pokemon">
         <legend><strong>Update Pokemon</strong></legend>
         <fieldset class="fields">
           <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
@@ -145,21 +146,5 @@
           <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
 	</form> 
 </div><!-- update -->
-
-<p>&nbsp;</p>
-<div id="delete" style="display: block">
-  <form method="POST" id="deletePokemon">
-      <legend><strong>Delete Pokemon</strong></legend>
-          <fieldset class="fields">
-            <p>Are you sure you wish to delete the following?</p>
-            <input type="hidden" name="pokemonID" id="deletepokemonID" value="1">
-            <label><strong>ID:</strong></label> 1 </p>
-            <label> <strong>Name:</strong> </label> Bulbasaur
-          </fieldset>
-        <input class="btn" type="submit" id="DeletePokemon" value="Delete Pokemon">
-        <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
-  </form> 
-</div><!-- delete -->
-
 </body>
 </html>

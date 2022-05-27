@@ -6,6 +6,7 @@ PORT        = 59432;
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'));
 
 // Handlebars Setup
 const { engine } = require('express-handlebars');
@@ -16,11 +17,11 @@ app.set('view engine', '.hbs');
 // Database Connection
 var db = require('./database/db-connector')
 
-// -------------------------------------------------
+// --------------------------------------------------------------
 //                  Route Handlers
-// -------------------------------------------------
+// --------------------------------------------------------------
 
-// GET requests ------------------------
+// GET requests ------------------------------------
 
 // Index Page
 app.get('/', (req, res) => {
@@ -59,14 +60,12 @@ app.get('/pokemon_attacks', (req, res) => {
     res.render('pokemon_attacks');
 });
 
-// POST requests ------------------------
+// POST requests -------------------------------------
 
 // Add Pokemon
-app.post('/pokemon', (req, res) => {
+app.post('/pokemon-add', (req, res) => {
     // Collect the data
     let data = req.body;
-    console.log(data)
-
     let name = data['input-name'];
     let type1 = parseInt(data['input-type2']);
     let type2 = parseInt(data['input-type2']);
@@ -100,9 +99,27 @@ app.post('/pokemon', (req, res) => {
     })
 });
 
-// UPDATE requests ------------------------
+// PUT requests ------------------------------------------
 
-// DELETE requests ------------------------
+
+// DELETE requests ---------------------------------------
+app.delete('/delete-pokemon', (req, res) => {
+    let data = req.body;
+    let id = parseInt(data.id)
+
+    // delete the pokemon
+    query = `DELETE FROM Pokemon WHERE pokemonID = ?;`
+    db.pool.query(query, [id], (error, rows, fields) => {
+        // check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(204);
+        }
+    })
+})
 
 
 /*
