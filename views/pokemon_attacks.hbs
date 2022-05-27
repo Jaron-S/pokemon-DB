@@ -49,11 +49,6 @@
 
 <body onload="browsePokemonAttacks()">
 
-<!-- header -->
-<h1>Pokemon DB</h1>
-
-<!-- navbar -->
-[ <a href="pokemon.html">Pokemon</a> | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | <a href="generations.html">Generations</a> | Pokemon Attacks ]
 
 <!-- body -->
 <div id="browse">
@@ -102,26 +97,10 @@
     <form method="POST" id="addPokemonAttack">
         <legend><strong>Add Pokemon Attack</strong></legend>
           <fieldset class="fields">
-            <label> Name: </label> <input type="text" name="name">
-            <label> Type 1: </label> <select name="type1">
-            	<option value="0">&nbsp;</option>
-                <option value="1">Grass</option>
-                <option value="2">Fire</option>
-                <option value="3">Ground</option>
-                <option value="3">Flying</option>
-                </select>
-                <label> Type 2: </label> <select name="type2">
-                  <option value="0">&nbsp;</option>
-                  <option value="1">Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                    </select>
-            <label> Generation: </label> <input type="number" name="gen">
-            <label> Pre-Evolution: </label> <input type="text" name="preEvolution">
-            <label> Post-Evolution: </label> <input type="text" name="postEvolution">
+            <label> Pokemon: </label> <input type="text" name="pokemon">
+            <label> Attack: </label> <input type=""text name="attack">
           </fieldset>
-          <input class="btn" type="submit" id="addPokemonAttack" value="Add Pokemon">
+          <input class="btn" type="submit" id="addPokemonAttack" value="Add Pokemon Attack">
           <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
 	</form> 
 </div><!-- insert -->
@@ -131,26 +110,9 @@
     <form method="POST" id="UpdatePokemonAttack">
         <legend><strong>Update Pokemon Attack</strong></legend>
         <fieldset class="fields">
-          <label> Name: </label> <input type="text" name="name" value="Bulbasaur">
-          <label> Type 1: </label> <select name="type1">
-            <option value="0">&nbsp;</option>
-              <option value="1" selected>Grass</option>
-              <option value="2">Fire</option>
-              <option value="3">Ground</option>
-              <option value="3">Flying</option>
-              </select>
-              <label> Type 2: </label> <select name="type2">
-                <option value="0">&nbsp;</option>
-                <option value="1" selected>Grass</option>
-                <option value="2">Fire</option>
-                <option value="3">Ground</option>
-                <option value="3">Flying</option>
-                <option value="4" selected>Poison</option>
-                  </select>
-          <label> Generation: </label> <input type="number" name="gen" value="1">
-          <label> Pre-Evolution: </label> <input type="text" name="preEvolution">
-          <label> Post-Evolution: </label> <input type="text" name="postEvolution" value="Venusaur">
-        </fieldset>
+            <label> Pokemon: </label> <input type="text" name="pokemon">
+            <label> Attack: </label> <input type=""text name="attack">
+          </fieldset>
           <input class="btn" type="submit" id="UpdateSavePokemonAttack" value="Save Changes">
           <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
 	</form> 
@@ -163,8 +125,8 @@
           <fieldset class="fields">
             <p>Are you sure you wish to delete the following?</p>
             <input type="hidden" name="pokemon_attackID" id="deletePokemonAttackID" value="1">
-            <label><strong>ID:</strong></label> 1 </p>
-            <label> <strong>Name:</strong> </label> Bulbasaur
+            <label><strong>Pokemon:</strong></label> Bulbasaur </p>
+            <label> <strong>Attack:</strong> </label> Vine Whip
           </fieldset>
         <input class="btn" type="submit" id="DeletePokemonAttack" value="Delete Pokemon Attack">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">

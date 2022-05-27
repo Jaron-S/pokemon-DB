@@ -49,101 +49,71 @@
 
 <body onload="browsePokemon()">
 
-<!-- header -->
-<h1>Pokemon DB</h1>
-
-<!-- navbar -->
-[ Pokemon | <a href="attacks.html">Attacks</a> | <a href="types.html">Types</a> | <a href="generations.html">Generations</a> | <a href="pokemon_attacks.html">Pokemon Attacks</a> ]
 
 <!-- body -->
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
-<table border="1" cellpadding="5">
-  <tr>
-    <th><a href="#" onClick="newPokemon()">New</a></th>
-    <th></th>
-    <th>id</th>
-    <th>Name</th>
-    <th>Type 1</th>
-    <th>Type 2</th>
-    <th>Generation</th>
-    <th>preEvolution</th>
-    <th>postEvolution</th>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-    <td align="right" >1</td>
-    <td >Bulbasaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
-    <td>null</td>
-    <td>Ivysaur</td>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-    <td align="right" >2</td>
-    <td>Ivysaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
-    <td>Bulbasaur</td>
-    <td>Venusaur</td>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-    <td align="right" >3</td>
-    <td >Venusaur</td>
-    <td>Grass</td>
-    <td>Poison</td>
-    <td align="center">1</td>
-    <td>Venusaur</td>
-    <td>null</td>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
-    <td align="right" >4</td>
-    <td >Charmander</td>
-    <td>Fire</td>
-    <td>null</td>
-    <td align="center">1</td>
-    <td>null</td>
-    <td>null</td>
-  </tr>
+<table border="1" cellpadding="5" id="pokemon-table">
+  <thead>
+    <tr>
+      <th><a href="#" onClick="newPokemon()">New</a></th>
+      <th></th>
+      <th>id</th>
+      <th>Name</th>
+      <th>Type 1</th>
+      <th>Type 2</th>
+      <th>Generation</th>
+      <th>preEvolution</th>
+      <th>postEvolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+    <tr>
+      <td><a href="#" onClick="updatePokemon('this.pokemonID')">Edit</a></td>
+      <td><a href="#" onclick="deletePokemon('this.pokemonID')">Delete</a></td>
+      <td align="right">{{this.pokemonID}}</td>
+      <td>{{this.pokemonName}}</td>
+      <td>{{this.typeID1}}</td>
+      <td>{{this.typeID2}}</td>
+      <td align="center">{{this.genID}}</td>
+      <td>{{this.preEvolution}}</td>
+      <td>{{this.postEvolution}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
 </table>
 <p>&nbsp;</p>
+
 </div><!-- browse -->
 
 <div id="insert">
-    <form method="POST" id="addPokemon">
-        <legend><strong>Add Pokemon</strong></legend>
-          <fieldset class="fields">
-            <label> Name: </label> <input type="text" name="name">
-            <label> Type 1: </label> <select name="type1">
-            	<option value="0">&nbsp;</option>
+  <form method="POST" id="add-pokemon-form-ajax">
+      <legend><strong>Add Pokemon</strong></legend>
+        <fieldset class="fields">
+          <label> Name: </label> <input type="text" name="input-name" id="input-name">
+          <label> Type 1: </label> <select name="input-type1" id="input-type1">
+            <option value="0">&nbsp;</option>
+              <option value="1">Grass</option>
+              <option value="2">Fire</option>
+              <option value="3">Ground</option>
+              <option value="3">Flying</option>
+              </select>
+              <label> Type 2: </label> <select name="input-type2" id="input-type2">
+                <option value="0">&nbsp;</option>
                 <option value="1">Grass</option>
                 <option value="2">Fire</option>
                 <option value="3">Ground</option>
                 <option value="3">Flying</option>
-                </select>
-                <label> Type 2: </label> <select name="type2">
-                  <option value="0">&nbsp;</option>
-                  <option value="1">Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                    </select>
-            <label> Generation: </label> <input type="number" name="gen">
-            <label> Pre-Evolution: </label> <input type="text" name="preEvolution">
-            <label> Post-Evolution: </label> <input type="text" name="postEvolution">
-          </fieldset>
-          <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
-          <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
+                  </select>
+          <label> Generation: </label> <input type="number" name="input-gen" id="input-gen">
+          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution" id="input-preEvolution">
+          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution" id="input-postEvolution">
+        </fieldset>
+        <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
+        <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
 	</form> 
+  {{!-- <script src="./js/add_pokemon.js"></script> --}}
 </div><!-- insert -->
 
 <p>&nbsp;</p>
