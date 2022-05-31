@@ -52,39 +52,35 @@
 
 <!-- body -->
 <div id="browse">
-<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<p><a href='#' onClick="showAll()">Display all forms</a> </p>
+
 <table border="1" cellpadding="5">
   <tr>
-    <th><a href="#" onClick="newPokemonAttack()">New</a></th>
-    <th></th>
+    <th><button onClick="newPokemonAttack()">+ New</button></th>
     <th>id</th>
     <th>Pokemon</th>
     <th>Attack</th>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
+    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
     <td align="right" >1</td>
     <td>Bulbasaur</td>
     <td>Vine Whip</td>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
+    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
     <td align="right" >2</td>
     <td>Venusaur</td>
     <td>Vine Whip</td>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
+    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
     <td align="right" >3</td>
     <td>Venusaur</td>
     <td>Leech Seed</td>
   </tr>
   <tr>
-    <td><a href="#" onClick="updatePokemonAttack('this.pokemon_attackID')">Edit</a></td>
-    <td><a href="#" onclick="deletePokemonAttack('this.pokemon_attackID')">Delete</a></td>
+    <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
     <td align="right" >4</td>
     <td>Charmander</td>
     <td>Ember</td>

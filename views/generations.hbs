@@ -52,32 +52,28 @@
 
   <!-- body -->
   <div id="browse">
-  <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+  <p><a href='#' onClick="showAll()">Display all forms</a> </p>
   <table border="1" cellpadding="5">
     <tr>
-      <th><a href="#" onClick="newGeneration()">New</a></th>
-      <th></th>
+      <th><button onClick="newGeneration()">+ New</button></th>
       <th>id</th>
       <th>Region</th>
       <th>Release Date</th>
     </tr>
     <tr>
-      <td><a href="#" onClick="updateGeneration('this.genID')">Edit</a></td>
-      <td><a href="#" onclick="deleteGeneration('this.genID')">Delete</a></td>
+      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
       <td align="right" >1</td>
       <td>Kanto</td>
       <td>1998-09-28</td>
     </tr>
     <tr>
-      <td><a href="#" onClick="updateGeneration('this.genID')">Edit</a></td>
-      <td><a href="#" onclick="deleteGeneration('this.genID')">Delete</a></td>
+      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
       <td align="right" >2</td>
       <td>Johto</td>
       <td>2000-08-15</td>
     </tr>
     <tr>
-      <td><a href="#" onClick="updateGeneration('this.genID')">Edit</a></td>
-      <td><a href="#" onclick="deleteGeneration('this.genID')">Delete</a></td>
+      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
       <td align="right" >3</td>
       <td>Hoenn</td>
       <td>2003-03-19</td>

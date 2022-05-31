@@ -40,8 +40,16 @@
           }
         }
         function newType() { showform('insert'); }
-        function updateType(tid) { showform('update'); }
-        function deleteType(tid) { showform ('delete'); }
+        function updateType(tID) {
+          document.getElementById('update-input-name').value = tID;
+          showform('update');
+        }
+        function deleteType(tID, tName) {
+          document.getElementById('delete-typeID').value = tID
+          document.getElementById('delete-typeID-display').innerHTML = tID
+          document.getElementById('delete-typeName-display').innerText = tName
+          showform ('delete');
+          }
         function browseTypes() { showform ('browse'); }
         function showAll() { showform ('all'); }
     </script>
@@ -52,67 +60,43 @@
 
   <!-- body -->
   <div id="browse">
-  <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+  <p><a href = '#' onClick="showAll()">Display all forms</a> </p>
   <table border="1" cellpadding="5">
-    <tr>
-      <th><a href="#" onClick="newType()">New</a></th>
-      <th></th>
-      <th>id</th>
-      <th>Name</th>
-      <th>Invulnerable Against</th>
+    <thead>
+      <tr>
+        <th><button onClick="newType()">+ New</button></th>
+        <th></th>
+        <th>id</th>
+        <th>Name</th>
+        <th>Invulnerable Against</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each data}}
+    <tr data-value="{this.typeID}">
+      <td><button onClick="updateType({{this.typeID}})">Edit</button></td>
+      <td><button onClick="deleteType({{this.typeID}}, '{{this.typeName}}')">Delete</button></td>
+      <td align="right">{{this.typeID}}</td>
+      <td>{{this.typeName}}</td>
+      <td>{{this.invulnerableAgainst}}</td>
     </tr>
-    <tr>
-      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
-      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
-      <td align="right" >1</td>
-      <td>Grass</td>
-      <td>NULL</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
-      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
-      <td align="right" >2</td>
-      <td>Fire</td>
-      <td>NULL</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
-      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
-      <td align="right" >3</td>
-      <td>Ground</td>
-      <td>NULL</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
-      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
-      <td align="right" >3</td>
-      <td>Flying</td>
-      <td>Ground</td>
-    </tr>
-    <tr>
-      <td><a href="#" onClick="updateType('this.typeID')">Edit</a></td>
-      <td><a href="#" onclick="deleteType('this.typeID')">Delete</a></td>
-      <td align="right" >3</td>
-      <td>Poison</td>
-      <td>NULL</td>
-    </tr>
+    {{/each}}
+  </tbody>
   </table>
   <p>&nbsp;</p>
   </div><!-- browse -->
 
   <div id="insert">
-      <form method="POST" id="addType">
+      <form method="POST" id="addType" action="/types-add">
           <legend><strong>Add Type</strong></legend>
             <fieldset class="fields">
-              <label> Name: </label> <input type="text" name="name">
+              <label> Name: </label> <input type="text" name="input-name">
               <label> Invulnerable Against: </label>
                 <select name="invulnerableAgainst">
-                  <option value="0">&nbsp;</option>
-                  <option value="1">Grass</option>
-                  <option value="2">Fire</option>
-                  <option value="3">Ground</option>
-                  <option value="3">Flying</option>
-                  <option value="4">Poison</option>
+                  <option value=0>Select a type</option>
+                  {{#each data}}
+                  <option value="{{this.typeID}}">{{this.typeName}}</option>
+                  {{/each}}
                 </select>
             </fieldset>
             <input class="btn" type="submit" id="addType" value="Add Type">
@@ -122,27 +106,24 @@
 
   <p>&nbsp;</p>
   <div id="update">
-      <form method="POST" id="UpdateType">
+      <form method="POST" id="UpdateType" action="/types-update">
           <legend><strong>Update Type</strong></legend>
           <fieldset class="fields">
-            <label> Name: </label>
-            <select name="invulnerableAgainst">
-              <option value="0">&nbsp;</option>
-              <option value="1">Grass</option>
-              <option value="2">Fire</option>
-              <option value="3">Ground</option>
-              <option value="3">Flying</option>
-              <option value="4">Poison</option>
+            <label>ID: </label>
+            <label id="update-id-label"></label>
+            <select name="input-name" id="update-input-name">
+              <option value=0>Select a type</option>
+              {{#each data}}
+              <option value="{{this.typeID}}">{{this.typeName}}</option>
+              {{/each}}
             </select>
             <label> Invulnerable Against: </label> 
-              <select name="invulnerableAgainst">
-                <option value="0">&nbsp;</option>
-                <option value="1">Grass</option>
-                <option value="2">Fire</option>
-                <option value="3">Ground</option>
-                <option value="3">Flying</option>
-                <option value="4">Poison</option>
-              </select>
+            <select name="input-invAgainst">
+              <option value=0>Select a type</option>
+              {{#each data}}
+              <option value="{{this.typeID}}">{{this.typeName}}</option>
+              {{/each}}
+            </select>
           </fieldset>
             <input class="btn" type="submit" id="UpdateSaveType" value="Save Changes">
             <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
@@ -151,13 +132,14 @@
 
   <p>&nbsp;</p>
   <div id="delete" style="display: block">
-    <form method="POST" id="deleteType">
+    <form method="POST" id="deleteType" action="/types-delete">
         <legend><strong>Delete Type</strong></legend>
             <fieldset class="fields">
               <p>Are you sure you wish to delete the following?</p>
-              <input type="hidden" name="typeID" id="deletetypeID" value="1">
-              <label><strong>ID:</strong></label> 1 </p>
-              <label> <strong>Name:</strong> </label> Grass
+              <input type="hidden" name="typeID" id="delete-typeID" value="0">
+              <label><strong>ID:</strong></label> <span id="delete-typeID-display"></span>
+              <br>
+              <label> <strong>Name:</strong> </label> <span id="delete-typeName-display"></span>
             </fieldset>
           <input class="btn" type="submit" id="DeleteType" value="Delete Type">
           <input class="btn" type="button" value="Cancel" onClick="browseTypes()">

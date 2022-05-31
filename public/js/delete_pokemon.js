@@ -6,7 +6,7 @@ function deletePokemon(pokemonID) {
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/delete-pokemon", true);
+    xhttp.open("DELETE", "/pokemon-delete", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
