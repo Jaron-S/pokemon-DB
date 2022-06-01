@@ -46,6 +46,12 @@
         document.getElementById('update-input-name').value = pName;
         showform('update');
       }
+      function deletePokemon(pid, pName) {
+        document.getElementById('delete-pokemonID').value = pid;
+        document.getElementById('delete-pokemonID-display').innerHTML = pid;
+        document.getElementById('delete-pokemonName-display').innerHTML = pName;
+        showform('delete')
+      }
       function browsePokemon() { showform ('browse'); }
       function showAll() { showform ('all'); }
   </script>
@@ -75,19 +81,19 @@
     {{#each data}}
     <tr data-value="{this.pokemonID}">
       <td><button onClick="updatePokemon('{{this.pokemonName}}')">Edit</button></td>
-      <td><button onClick="deletePokemon({{this.pokemonID}})">Delete</button></td>
+      <td><button onClick="deletePokemon({{this.pokemonID}}, '{{this.pokemonName}}')">Delete</button></td>
       <td align="right">{{this.pokemonID}}</td>
       <td>{{this.pokemonName}}</td>
-      <td>{{this.typeID1}}</td>
-      <td>{{this.typeID2}}</td>
+      <td>{{this.typeName1}}</td>
+      <td>{{this.typeName2}}</td>
       <td align="center">{{this.genID}}</td>
-      <td>{{this.preEvolution}}</td>
-      <td>{{this.postEvolution}}</td>
+      <td>{{this.preEvoName}}</td>
+      <td>{{this.postEvoName}}</td>
     </tr>
     {{/each}}
   </tbody>
 </table>
-<script src="./js/delete_pokemon.js"></script>
+{{!-- <script src="./js/delete_pokemon.js"></script> --}}
 <p>&nbsp;</p>
 
 </div><!-- browse -->
@@ -148,5 +154,22 @@
         <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
 	</form> 
 </div><!-- update -->
+
+ <p>&nbsp;</p>
+  <div id="delete" style="display: block">
+    <form method="POST" id="deletePokemon" action="/pokemon-delete">
+        <legend><strong>Delete Pokemon</strong></legend>
+            <fieldset class="fields">
+              <p>Are you sure you wish to delete the following?</p>
+              <input type="hidden" name="pokemonID" id="delete-pokemonID">
+              <label><strong>ID:</strong></label> <span id="delete-pokemonID-display"></span>
+              <br>
+              <label> <strong>Name:</strong> </label> <span id="delete-pokemonName-display"></span>
+            </fieldset>
+          <input class="btn" type="submit" id="DeleteType" value="Delete Type">
+          <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
+    </form> 
+  </div><!-- delete -->
+
 </body>
 </html>

@@ -35,7 +35,7 @@ app.get('/index', (req, res) => {
 // ----------------------------------------
 // Load page
 app.get('/pokemon', (req, res) => {
-    let loadPokemon = "SELECT * FROM Pokemon;"
+    let loadPokemon = "SELECT p.pokemonID, p.pokemonName, p.typeID1, p.typeID2, t1.typeName typeName1, t2.typeName typeName2, p.genID, p.preEvolution, p.postEvolution, pre.pokemonName preEvoName, post.pokemonName postEvoName FROM Pokemon p LEFT JOIN Types t1 ON t1.typeID = p.typeID1 LEFT JOIN Types t2 ON t2.typeID = p.typeID2 LEFT JOIN Pokemon pre ON pre.pokemonID = p.preEvolution LEFT JOIN Pokemon post ON post.pokemonID = p.postEvolution;"
     let loadTypes = "SELECT * FROM Types;"
 
     // load pokemon
@@ -87,9 +87,9 @@ app.post('/pokemon-add', (req, res) => {
 });
 
 // Delete pokemon
-app.delete('/pokemon-delete', (req, res) => {
+app.post('/pokemon-delete', (req, res) => {
     let data = req.body;
-    let id = parseInt(data.id)
+    let id = parseInt(data['pokemonID']);
 
     // delete the pokemon
     query = `DELETE FROM Pokemon WHERE pokemonID = ?;`
@@ -100,7 +100,7 @@ app.delete('/pokemon-delete', (req, res) => {
             res.sendStatus(400);
         }
         else {
-            res.sendStatus(204);
+            res.redirect('/pokemon')
         }
     })
 })
@@ -148,7 +148,7 @@ app.post('/pokemon-update', (req, res) => {
 // ---------------------------------------
 // Load table
 app.get('/attacks', (req, res) => {
-    let loadAttacks = 'SELECT * FROM Attacks;'
+    let loadAttacks = 'SELECT a.attackID, a.attackName, a.typeID, t.typeName, a.power, a.accuracy, a.PP FROM Attacks a INNER JOIN Types t ON t.typeID = a.typeID;'
     let loadTypes = "SELECT * FROM Types;"
 
     db.pool.query(loadAttacks, (error, rows, fields) => {
@@ -258,7 +258,7 @@ app.post('/attacks-delete', (req, res) => {
 
 // Load table
 app.get('/types', (req, res) => {
-    let loadTypes = 'SELECT * FROM Types;'
+    let loadTypes = 'SELECT t1.typeID, t1.typeName, t1.invulnerableAgainst, t2.typeName invulnerableAgainst FROM Types t1 LEFT JOIN Types t2 ON t2.typeID = t1.invulnerableAgainst;'
 
     db.pool.query(loadTypes, (error, rows, fields) => {
         let types = rows;
