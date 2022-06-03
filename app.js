@@ -33,9 +33,15 @@ app.get('/index', (req, res) => {
 
 //              Pokemon Page
 // ----------------------------------------
+
 // Load page
 app.get('/pokemon', (req, res) => {
-    let loadPokemon = "SELECT p.pokemonID, p.pokemonName, p.typeID1, p.typeID2, t1.typeName typeName1, t2.typeName typeName2, p.genID, p.preEvolution, p.postEvolution, pre.pokemonName preEvoName, post.pokemonName postEvoName FROM Pokemon p LEFT JOIN Types t1 ON t1.typeID = p.typeID1 LEFT JOIN Types t2 ON t2.typeID = p.typeID2 LEFT JOIN Pokemon pre ON pre.pokemonID = p.preEvolution LEFT JOIN Pokemon post ON post.pokemonID = p.postEvolution;"
+    let loadPokemon = `SELECT p.pokemonID, p.pokemonName, p.typeID1, p.typeID2, t1.typeName typeName1, t2.typeName typeName2, p.genID, p.preEvolution, p.postEvolution, pre.pokemonName preEvoName, post.pokemonName postEvoName
+                        FROM Pokemon p
+                        LEFT JOIN Types t1 ON t1.typeID = p.typeID1
+                        LEFT JOIN Types t2 ON t2.typeID = p.typeID2
+                        LEFT JOIN Pokemon pre ON pre.pokemonID = p.preEvolution
+                        LEFT JOIN Pokemon post ON post.pokemonID = p.postEvolution;`
     let loadTypes = "SELECT * FROM Types;"
 
     // load pokemon
@@ -146,9 +152,12 @@ app.post('/pokemon-update', (req, res) => {
 
 //              Attacks Page
 // ---------------------------------------
+
 // Load table
 app.get('/attacks', (req, res) => {
-    let loadAttacks = 'SELECT a.attackID, a.attackName, a.typeID, t.typeName, a.power, a.accuracy, a.PP FROM Attacks a INNER JOIN Types t ON t.typeID = a.typeID;'
+    let loadAttacks = `SELECT a.attackID, a.attackName, a.typeID, t.typeName, a.power, a.accuracy, a.PP
+                        FROM Attacks a
+                        INNER JOIN Types t ON t.typeID = a.typeID;`
     let loadTypes = "SELECT * FROM Types;"
 
     db.pool.query(loadAttacks, (error, rows, fields) => {
@@ -258,7 +267,9 @@ app.post('/attacks-delete', (req, res) => {
 
 // Load table
 app.get('/types', (req, res) => {
-    let loadTypes = 'SELECT t1.typeID, t1.typeName, t1.invulnerableAgainst, t2.typeName invulnerableAgainst FROM Types t1 LEFT JOIN Types t2 ON t2.typeID = t1.invulnerableAgainst;'
+    let loadTypes = `SELECT t1.typeID, t1.typeName, t1.invulnerableAgainst, t2.typeName invulnerableAgainst
+                        FROM Types t1 
+                        LEFT JOIN Types t2 ON t2.typeID = t1.invulnerableAgainst;`
 
     db.pool.query(loadTypes, (error, rows, fields) => {
         let types = rows;
@@ -355,8 +366,68 @@ app.get('/generations', (req, res) => {
 
 //              Pokemon Attacks Page
 // ---------------------------------------------
+// Load table
 app.get('/pokemon_attacks', (req, res) => {
-    res.render('pokemon_attacks');
+    let loadPokemonAttacks = `SELECT pa.pokemon_attackID,  p.pokemonName, a.attackName
+                                FROM Pokemon_Attacks pa
+                                LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
+                                LEFT JOIN Attacks a ON a.attackID = pa.attackID;`
+
+    db.pool.query(loadPokemonAttacks, (error, rows, fields) => {
+        let pokemonAttacks = rows;
+        res.render('pokemon_attacks', {data: pokemonAttacks});
+    })
+    
+});
+
+// Add pokemon_attack
+app.post('/pokemon_attacks-add', (req, res) => {
+    // Collect the data
+    let data = req.body;
+    let pokemon = data['input-pokemon'];
+    let attack = data['input-attack'];
+
+    // convert NULL values
+    if (isNaN(pokemon) || pokemon === 0) {
+        pokemon = 'NULL'
+    }
+
+    // add the pokemon attack
+    let query = `INSERT INTO Pokemon_Attacks (pokemonID, attackID)
+                    VALUES ('${pokemon}', ${attack});`
+    db.pool.query(query, (error, rows, fields) => {
+        // check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/pokemon_attacks')
+        }
+    })
+});
+
+// Delete type
+app.post('/pokemon_attacks-delete', (req, res) => {
+    let data = req.body;
+    let id = parseInt(data['paID']);
+
+    if (isNaN(id) || id === 0) {
+        id = 'NULL';
+    }
+
+    // delete the type
+    query = `DELETE FROM Pokemon_Attacks WHERE pokemon_attackID = ?;`
+    db.pool.query(query, [id], (error, rows, fields) => {
+        // check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/pokemon_attacks');
+        }
+    })
 });
 
 

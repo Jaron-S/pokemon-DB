@@ -11,37 +11,32 @@
         if (dowhat == 'insert'){
           document.getElementById('browse').style.display = 'none';
           document.getElementById('insert').style.display = 'block';
-          document.getElementById('update').style.display = 'none';
-          document.getElementById('delete').style.display = 'none';
-        }
-        else if (dowhat == 'update'){
-          document.getElementById('browse').style.display = 'none';
-          document.getElementById('insert').style.display = 'none';
-          document.getElementById('update').style.display = 'block';
           document.getElementById('delete').style.display = 'none';
         }
         else if (dowhat == 'delete'){
           document.getElementById('browse').style.display = 'none';
           document.getElementById('insert').style.display = 'none';
-          document.getElementById('update').style.display = 'none';
           document.getElementById('delete').style.display = 'block';
         }
-              else if (dowhat == 'all'){
+        else if (dowhat == 'all'){
           document.getElementById('browse').style.display = 'block';
           document.getElementById('insert').style.display = 'block';
-          document.getElementById('update').style.display = 'block';
           document.getElementById('delete').style.display = 'block';
         }
         else { //by default display browse
           document.getElementById('browse').style.display = 'block';
           document.getElementById('insert').style.display = 'none';
-          document.getElementById('update').style.display = 'none';
           document.getElementById('delete').style.display = 'none';
         }
       }
       function newPokemonAttack() { showform('insert'); }
-      function updatePokemonAttack(paID) { showform('update'); }
-      function deletePokemonAttack(paID) { showform ('delete'); }
+      function deletePokemonAttack(paID, pName, aName) {
+        document.getElementById('delete-paID').value = paID;
+        document.getElementById('delete-paID-display').innerHTML = paID;
+        document.getElementById('delete-pName-display').innerHTML = pName;
+        document.getElementById('delete-aName-display').innerHTML = aName;
+        showform ('delete');
+      }
       function browsePokemonAttacks() { showform ('browse'); }
       function showAll() { showform ('all'); }
   </script>
@@ -55,46 +50,34 @@
 <p><a href='#' onClick="showAll()">Display all forms</a> </p>
 
 <table border="1" cellpadding="5">
-  <tr>
-    <th><button onClick="newPokemonAttack()">+ New</button></th>
-    <th>id</th>
-    <th>Pokemon</th>
-    <th>Attack</th>
-  </tr>
-  <tr>
-    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
-    <td align="right" >1</td>
-    <td>Bulbasaur</td>
-    <td>Vine Whip</td>
-  </tr>
-  <tr>
-    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
-    <td align="right" >2</td>
-    <td>Venusaur</td>
-    <td>Vine Whip</td>
-  </tr>
-  <tr>
-    <td><button onclick="deletePokemonAttack('this.genID')">Delete</button></td>
-    <td align="right" >3</td>
-    <td>Venusaur</td>
-    <td>Leech Seed</td>
-  </tr>
-  <tr>
-    <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
-    <td align="right" >4</td>
-    <td>Charmander</td>
-    <td>Ember</td>
-  </tr>
+  <thead>
+    <tr>
+      <th><button onClick="newPokemonAttack()">+ New</button></th>
+      <th>id</th>
+      <th>Pokemon</th>
+      <th>Attack</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+      <tr data-value="{this.pokemonAttackID}">
+        <td><button onClick="deletePokemonAttack({{pokemon_attackID}}, '{{this.pokemonName}}', '{{this.attackName}}')">Delete</button></td>
+        <td align="right">{{this.pokemon_attackID}}</td>
+        <td>{{this.pokemonName}}</td>
+        <td>{{this.attackName}}</td>
+      </tr>
+      {{/each}}
+  </tbody>
 </table>
 <p>&nbsp;</p>
 </div><!-- browse -->
 
 <div id="insert">
-    <form method="POST" id="addPokemonAttack">
-        <legend><strong>Add Pokemon Attack</strong></legend>
+    <form method="POST" id="addPokemonAttack" action="pokemon_attacks-add">
+        <legend><strong>Give a Pokemon new attack</strong></legend>
           <fieldset class="fields">
-            <label> Pokemon: </label> <input type="text" name="pokemon">
-            <label> Attack: </label> <input type=""text name="attack">
+            <label> Pokemon: </label> <input type="text" name="input-pokemon">
+            <label> Attack: </label> <input type=""text name="input-attack">
           </fieldset>
           <input class="btn" type="submit" id="addPokemonAttack" value="Add Pokemon Attack">
           <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
@@ -102,28 +85,18 @@
 </div><!-- insert -->
 
 <p>&nbsp;</p>
-<div id="update">
-    <form method="POST" id="UpdatePokemonAttack">
-        <legend><strong>Update Pokemon Attack</strong></legend>
-        <fieldset class="fields">
-            <label> Pokemon: </label> <input type="text" name="pokemon">
-            <label> Attack: </label> <input type=""text name="attack">
-          </fieldset>
-          <input class="btn" type="submit" id="UpdateSavePokemonAttack" value="Save Changes">
-          <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
-	</form> 
-</div><!-- update -->
-
-<p>&nbsp;</p>
 <div id="delete" style="display: block">
-  <form method="POST" id="deletePokemonAttack">
+  <form method="POST" id="deletePokemonAttack" action="/pokemon_attacks-delete">
       <legend><strong>Delete Pokemon Attack</strong></legend>
           <fieldset class="fields">
-            <p>Are you sure you wish to delete the following?</p>
-            <input type="hidden" name="pokemon_attackID" id="deletePokemonAttackID" value="1">
-            <label><strong>Pokemon:</strong></label> Bulbasaur </p>
-            <label> <strong>Attack:</strong> </label> Vine Whip
-          </fieldset>
+              <p>Are you sure you wish to delete the following?</p>
+              <input type="hidden" name="paID" id="delete-paID" value="0">
+              <label><strong>ID:</strong></label> <span id="delete-paID-display"></span>
+              <br>
+              <label> <strong>Pokemon:</strong> </label> <span id="delete-pName-display"></span>
+              <br>
+              <label> <strong>Attack:</strong> </label> <span id="delete-aName-display"></span>
+            </fieldset>
         <input class="btn" type="submit" id="DeletePokemonAttack" value="Delete Pokemon Attack">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
   </form> 
