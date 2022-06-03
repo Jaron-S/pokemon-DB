@@ -99,6 +99,7 @@
 </div><!-- browse -->
 
 <div id="insert">
+  <p>&nbsp;</p>
   <form method="POST" id="add-pokemon" action="pokemon-add">
       <legend><strong>Add Pokemon</strong></legend>
         <fieldset class="fields">
@@ -126,8 +127,9 @@
 	</form> 
 </div><!-- insert -->
 
-<p>&nbsp;</p>
+
 <div id="update">
+  <p>&nbsp;</p>
     <form method="POST" id="pokemon-update" action="pokemon-update">
         <legend><strong>Update Pokemon by Name</strong></legend>
         <fieldset class="fields">
@@ -147,8 +149,8 @@
               {{/each}}
             </select>
           <label> Generation: </label> <input type="number" name="input-gen">
-          <label> Pre-Evolution: </label> <input type="number" name="input-preEvolution">
-          <label> Post-Evolution: </label> <input type="number" name="input-postEvolution">
+          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution">
+          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution">
         </fieldset>
         <input class="btn" type="submit" id="UpdateSavePokemon" value="Save Changes">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
@@ -166,8 +168,8 @@
               <br>
               <label> <strong>Name:</strong> </label> <span id="delete-pokemonName-display"></span>
             </fieldset>
-          <input class="btn" type="submit" id="DeleteType" value="Delete Type">
-          <input class="btn" type="button" value="Cancel" onClick="browseTypes()">
+          <input class="btn" type="submit" id="DeletePokemon" value="Delete Pokemon">
+          <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
     </form> 
   </div><!-- delete -->
 

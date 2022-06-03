@@ -63,31 +63,55 @@ app.post('/pokemon-add', (req, res) => {
     let type1 = parseInt(data['input-type1']);
     let type2 = parseInt(data['input-type2']);
     let gen = parseInt(data['input-gen']);
-    let preEvolution = parseInt(data['input-preEvolution']);
-    let postEvolution = parseInt(data['input-postEvolution']);
+    let preEvolutionName = data['input-preEvolution'];
+    let postEvolutionName = data['input-postEvolution'];
+    
 
     // convert NULL values
     if (isNaN(type2) || type2 === 0) {
         type2 = 'NULL'
     }
-    if (isNaN(preEvolution)) {
-        preEvolution = 'NULL'
-    }
-    if (isNaN(postEvolution)) {
-        postEvolution = 'NULL'
-    }
 
     // add the pokemon
-    let query = `INSERT INTO Pokemon (pokemonName, typeID1, typeID2, genID, preEvolution, postEvolution)
-                    VALUES ('${name}', ${type1}, ${type2}, ${gen}, ${preEvolution}, ${postEvolution});`
-    db.pool.query(query, (error, rows, fields) => {
-        // check for errors
+    let preEvoQuery = `SELECT pokemonID FROM Pokemon WHERE pokemonName = '${preEvolutionName}';`
+    let postEvoQuery = `SELECT pokemonID FROM Pokemon WHERE pokemonName = '${postEvolutionName}';`
+    // find the preEvolution name
+    db.pool.query(preEvoQuery, (error, rows, fields) => {
         if (error) {
             console.log(error);
             res.sendStatus(400);
         }
         else {
-            res.redirect('/pokemon')
+            
+            let preEvolutionID = 'NULL';
+            if (rows[0]) {
+                preEvolutionID =  rows[0].pokemonID;
+            }
+            // find the postEvolution name
+            db.pool.query(postEvoQuery, (error, rows, fields) => {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    let postEvolutionID = 'NULL';
+                    if (rows[0]) {
+                        postEvolutionID =  rows[0].pokemonID;
+                    }
+                    // add the pokemon
+                    let insertQuery = `INSERT INTO Pokemon (pokemonName, typeID1, typeID2, genID, preEvolution, postEvolution)
+                                        VALUES ('${name}', ${type1}, ${type2}, ${gen}, ${preEvolutionID}, ${postEvolutionID});`
+                    db.pool.query(insertQuery, (error, rows, fields) => {
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        }
+                        else {
+                            res.redirect('/pokemon');
+                        }
+                    })
+                }
+            })
         }
     })
 });
