@@ -235,7 +235,7 @@ app.post('/attacks-add', (req, res) => {
         accuracy = 'NULL'
     }
 
-    // add the type
+    // add the attack
     let query = `INSERT INTO Attacks (attackName, typeID, power, accuracy, PP)
                     VALUES ('${name}', ${typeID}, ${power}, ${accuracy}, ${PP});`
     db.pool.query(query, (error, rows, fields) => {
@@ -421,11 +421,19 @@ app.get('/pokemon_attacks', (req, res) => {
                                 LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
                                 LEFT JOIN Attacks a ON a.attackID = pa.attackID;`
 
+    let loadPokemon = `SELECT pokemonID, pokemonName FROM Pokemon;`;
+    let loadAttacks = `SELECT attackID, attackName FROM Attacks`;
+
     db.pool.query(loadPokemonAttacks, (error, rows, fields) => {
         let pokemonAttacks = rows;
-        res.render('pokemon_attacks', {data: pokemonAttacks});
+        db.pool.query(loadPokemon, (error, rows, fields) => {
+            let pokemon = rows;
+            db.pool.query(loadAttacks, (error, rows, fields) => {
+                let attacks = rows;
+                res.render('pokemon_attacks', {data: pokemonAttacks, pokemon: pokemon, attacks: attacks});
+            })
+        })
     })
-    
 });
 
 // Add pokemon_attack

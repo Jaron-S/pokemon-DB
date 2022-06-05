@@ -74,10 +74,20 @@
 
 <div id="insert">
     <form method="POST" id="addPokemonAttack" action="pokemon_attacks-add">
-        <legend><strong>Give a Pokemon new attack</strong></legend>
+        <legend><strong>Give a Pokemon an attack</strong></legend>
           <fieldset class="fields">
-            <label> Pokemon: </label> <input type="text" name="input-pokemon">
-            <label> Attack: </label> <input type=""text name="input-attack">
+            <label> Pokemon: </label>
+            <select name="input-pokemon">
+              {{#each pokemon}}
+                <option value="{{this.pokemonID}}">{{this.pokemonName}}</option>
+              {{/each}}
+            </select>
+            <label> Attack:</label>
+            <select name="input-attack">
+              {{#each attacks}}
+                <option value="{{this.attackID}}">{{this.attackName}}</option>
+              {{/each}}
+            </select>
           </fieldset>
           <input class="btn" type="submit" id="addPokemonAttack" value="Add Pokemon Attack">
           <input class="btn" type="button" value="Cancel" onClick="browsePokemonAttacks()">
