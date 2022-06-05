@@ -42,8 +42,13 @@
         }
       }
       function newPokemon() { showform('insert'); }
-      function updatePokemon(pName) {
+      function updatePokemon(pName, tID1, tID2, gID, preEvoName, postEvoName) {
         document.getElementById('update-input-name').value = pName;
+        document.getElementById('update-input-type1').value = tID1;
+        document.getElementById('update-input-type2').value = tID2;
+        document.getElementById('update-input-gen').value = gID;
+        document.getElementById('update-input-preEvolution').value = preEvoName;
+        document.getElementById('update-input-postEvolution').value = postEvoName;
         showform('update');
       }
       function deletePokemon(pid, pName) {
@@ -80,8 +85,8 @@
   <tbody>
     {{#each data}}
     <tr data-value="{this.pokemonID}">
-      <td><button onClick="updatePokemon('{{this.pokemonName}}')">Edit</button></td>
       <td><button onClick="deletePokemon({{this.pokemonID}}, '{{this.pokemonName}}')">Delete</button></td>
+      <td><button onClick="updatePokemon('{{this.pokemonName}}', {{this.typeID1}}, '{{this.typeID2}}', {{this.genID}}, '{{this.preEvoName}}', '{{this.postEvoName}}')">Edit</button></td>
       <td align="right">{{this.pokemonID}}</td>
       <td>{{this.pokemonName}}</td>
       <td>{{this.typeName1}}</td>
@@ -93,7 +98,6 @@
     {{/each}}
   </tbody>
 </table>
-{{!-- <script src="./js/delete_pokemon.js"></script> --}}
 <p>&nbsp;</p>
 
 </div><!-- browse -->
@@ -105,22 +109,22 @@
         <fieldset class="fields">
           <label> Name: </label> <input type="text" name="input-name">
           <label> Type 1: </label>
-            <select name="input-type1" id="input-type1">
+            <select name="input-type1" id="add-input-type1">
               <option value=0>Select a type</option>
               {{#each types}}
               <option value="{{this.typeID}}">{{this.typeName}}</option>
               {{/each}}
             </select>
           <label> Type 2: </label>
-            <select name="input-type2" id="input-type2">
+            <select name="input-type2" id="add-input-type2">
               <option value="0">&nbsp;</option>
               {{#each types}}
               <option value="{{this.typeID}}">{{this.typeName}}</option>
               {{/each}}
             </select>
-          <label> Generation: </label> <input type="number" name="input-gen" id="input-gen">
-          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution" id="input-preEvolution">
-          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution" id="input-postEvolution">
+          <label> Generation: </label> <input type="number" name="input-gen" id="add-input-gen">
+          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution" id="add-input-preEvolution">
+          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution" id="add-input-postEvolution">
         </fieldset>
         <input class="btn" type="submit" id="addPokemon" value="Add Pokemon">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">
@@ -135,22 +139,22 @@
         <fieldset class="fields">
           <label> Name: </label> <input type="text" name="input-name" id="update-input-name">
           <label> Type 1: </label>
-            <select name="input-type1">
+            <select name="input-type1" id="update-input-type1">
               <option value=0>Select a type</option>
               {{#each types}}
               <option value="{{this.typeID}}">{{this.typeName}}</option>
               {{/each}}
             </select>
           <label> Type 2: </label>
-            <select name="input-type2">
+            <select name="input-type2" id="update-input-type2">
               <option value="0">&nbsp;</option>
               {{#each types}}
               <option value="{{this.typeID}}">{{this.typeName}}</option>
               {{/each}}
             </select>
-          <label> Generation: </label> <input type="number" name="input-gen">
-          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution">
-          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution">
+          <label> Generation: </label> <input type="number" name="input-gen" id="update-input-gen">
+          <label> Pre-Evolution: </label> <input type="text" name="input-preEvolution" id="update-input-preEvolution">
+          <label> Post-Evolution: </label> <input type="text" name="input-postEvolution" id="update-input-postEvolution">
         </fieldset>
         <input class="btn" type="submit" id="UpdateSavePokemon" value="Save Changes">
         <input class="btn" type="button" value="Cancel" onClick="browsePokemon()">

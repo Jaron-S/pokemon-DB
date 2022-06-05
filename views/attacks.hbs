@@ -40,11 +40,15 @@
           }
         }
         function newAttack() { showform('insert'); }
-        function updateAttack(aid, aName) {
+        function updateAttack(aid, aName, tid, power, accuracy, PP) {
           // preset form data
           document.getElementById('update-attackID').value = aid;
           document.getElementById('update-attackID-display').innerHTML = aid;
           document.getElementById('update-attack-name').value = aName;
+          document.getElementById('update-type').value = tid;
+          document.getElementById('update-power').value = power;
+          document.getElementById('update-accuracy').value = accuracy;
+          document.getElementById('update-PP').value = PP;
           showform('update');
         }
         function deleteAttack(aid, aName) {
@@ -80,8 +84,8 @@
     <tbody>
       {{#each data}}
       <tr data-value="{this.attackID}">
-        <td><button onClick="updateAttack({{this.attackID}}, '{{this.attackName}}')">Edit</button></td>
         <td><button onClick="deleteAttack({{this.attackID}}, '{{this.attackName}}')">Delete</button></td>
+        <td><button onClick="updateAttack({{this.attackID}}, '{{this.attackName}}', {{this.typeID}}, {{this.power}}, {{this.accuracy}}, {{this.PP}})">Edit</button></td>
         <td align="right">{{this.attackID}}</td>
         <td>{{this.attackName}}</td>
         <td>{{this.typeName}}</td>
@@ -119,22 +123,22 @@
 
   <p>&nbsp;</p>
   <div id="update">
-      <form method="POST" id="UpdateAttack">
+      <form method="POST" id="UpdateAttack" action="attacks-update">
           <legend><strong>Update Attack</strong></legend>
           <fieldset class="fields">
               <label> Attack ID: </label> <label id="update-attackID-display"></label> <br> <br>
-              <input type="hidden" name="id" id="update-attackID">
-              <label> Attack Name: </label><input type="text" name="name" id="update-attack-name">
+              <input type="hidden" name="input-attackID" id="update-attackID">
+              <label> Attack Name: </label><input type="text" name="input-name" id="update-attack-name">
               <label> Type: </label>
-                <select name="input-type" value="Select a type">
+                <select name="input-type" value="Select a type" id="update-type">
                   <option value=0>Select a type</option>
                   {{#each types}}
                   <option value="{{this.typeID}}">{{this.typeName}}</option>
                   {{/each}}
                 </select>
-              <label> Power: </label> <input type="number" name="power">
-              <label> Accuracy: </label> <input type="number" name="accuracy">
-              <label> PP: </label> <input type="number" name="PP">
+              <label> Power: </label> <input type="number" name="input-power" id="update-power">
+              <label> Accuracy: </label> <input type="number" name="input-accuracy" id="update-accuracy">
+              <label> PP: </label> <input type="number" name="input-PP" id="update-PP">
           </fieldset>
             <input class="btn" type="submit" id="UpdateSaveAttack" value="Save Changes">
             <input class="btn" type="button" value="Cancel" onClick="browseAttacks()">

@@ -143,32 +143,55 @@ app.post('/pokemon-update', (req, res) => {
     let type1 = parseInt(data['input-type1']);
     let type2 = parseInt(data['input-type2']);
     let gen = parseInt(data['input-gen']);
-    let preEvolution = parseInt(data['input-preEvolution']);
-    let postEvolution = parseInt(data['input-postEvolution']);
+    let preEvolutionName = data['input-preEvolution'];
+    let postEvolutionName = data['input-postEvolution'];
 
     // convert NULL values
     if (isNaN(type2) || type2 === 0) {
         type2 = 'NULL'
     }
-    if (isNaN(preEvolution)) {
-        preEvolution = 'NULL'
-    }
-    if (isNaN(postEvolution)) {
-        postEvolution = 'NULL'
-    }
 
-    // update the pokemon
-    let query = `UPDATE Pokemon SET typeID1 = ${type1}, typeID2 = ${type2}, genID = ${gen}, preEvolution = ${preEvolution}, postEvolution = ${postEvolution}
-                 WHERE Pokemon.pokemonName = '${name}';`
-
-    db.pool.query(query, (error, rows, fields) => {
-        // check for errors
+    let preEvoQuery = `SELECT pokemonID FROM Pokemon WHERE pokemonName = '${preEvolutionName}';`
+    let postEvoQuery = `SELECT pokemonID FROM Pokemon WHERE pokemonName = '${postEvolutionName}';`
+    // find the preEvolution name
+    db.pool.query(preEvoQuery, (error, rows, fields) => {
         if (error) {
             console.log(error);
             res.sendStatus(400);
         }
         else {
-            res.redirect('/pokemon')
+            
+            let preEvolutionID = 'NULL';
+            if (rows[0]) {
+                preEvolutionID =  rows[0].pokemonID;
+            }
+            // find the postEvolution name
+            db.pool.query(postEvoQuery, (error, rows, fields) => {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    let postEvolutionID = 'NULL';
+                    if (rows[0]) {
+                        postEvolutionID =  rows[0].pokemonID;
+                    }
+                    // update the pokemon
+                    let query = `UPDATE Pokemon SET typeID1 = ${type1}, typeID2 = ${type2}, genID = ${gen}, preEvolution = ${preEvolutionID}, postEvolution = ${postEvolutionID}
+                                WHERE Pokemon.pokemonName = '${name}';`
+
+                    db.pool.query(query, (error, rows, fields) => {
+                        // check for errors
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        }
+                        else {
+                            res.redirect('/pokemon')
+                        }
+                    })
+                }
+            })
         }
     })
 });
@@ -199,7 +222,7 @@ app.post('/attacks-add', (req, res) => {
     // Collect the data
     let data = req.body;
     let name = data['input-name'];
-    let type = parseInt(data['input-type']);
+    let typeID = parseInt(data['input-type']);
     let power = parseInt(data['input-power']);
     let accuracy = parseInt(data['input-accuracy']);
     let PP = parseInt(data['input-PP']);
@@ -214,7 +237,7 @@ app.post('/attacks-add', (req, res) => {
 
     // add the type
     let query = `INSERT INTO Attacks (attackName, typeID, power, accuracy, PP)
-                    VALUES ('${name}', ${type}, ${power}, ${accuracy}, ${PP});`
+                    VALUES ('${name}', ${typeID}, ${power}, ${accuracy}, ${PP});`
     db.pool.query(query, (error, rows, fields) => {
         // check for errors
         if (error) {
@@ -231,9 +254,9 @@ app.post('/attacks-add', (req, res) => {
 app.post('/attacks-update', (req, res) => {
     // Collect the data
     let data = req.body;
-    let id = parseInt(data['attackID'])
+    let id = parseInt(data['input-attackID'])
     let name = data['input-name'];
-    let type = parseInt(data['input-type']);
+    let typeID = parseInt(data['input-type']);
     let power = parseInt(data['input-power']);
     let accuracy = parseInt(data['input-accuracy']);
     let PP = parseInt(data['input-PP']);
@@ -247,8 +270,8 @@ app.post('/attacks-update', (req, res) => {
     }
 
     // update the attack
-    let query = `UPDATE Attacks SET attackName, typeID, power, accuracy, PP
-                 WHERE Types.attackID = '${id}';`
+    let query = `UPDATE Attacks SET attackName='${name}', typeID=${typeID}, power=${power}, accuracy=${accuracy}, PP=${PP}
+                 WHERE attackID = ${id};`
 
     db.pool.query(query, (error, rows, fields) => {
         // check for errors
@@ -291,7 +314,7 @@ app.post('/attacks-delete', (req, res) => {
 
 // Load table
 app.get('/types', (req, res) => {
-    let loadTypes = `SELECT t1.typeID, t1.typeName, t1.invulnerableAgainst, t2.typeName invulnerableAgainst
+    let loadTypes = `SELECT t1.typeID, t1.typeName, t1.invulnerableAgainst, t2.typeName invAgainstName
                         FROM Types t1 
                         LEFT JOIN Types t2 ON t2.typeID = t1.invulnerableAgainst;`
 
@@ -333,17 +356,18 @@ app.post('/types-add', (req, res) => {
 app.post('/types-update', (req, res) => {
     // Collect the data
     let data = req.body;
-    let typeID = data['input-name'];
+    let typeID = parseInt(data['input-typeID']);
+    let typeName = data['input-name'];
     let invAgainst = parseInt(data['input-invAgainst']);
 
     // convert NULL values
     if (isNaN(invAgainst) || invAgainst === 0) {
-        invAgainst = 'NULL'
+        invAgainst = 'NULL';
     }
 
     // update the pokemon
-    let query = `UPDATE Types SET invulnerableAgainst = ${invAgainst}
-                 WHERE Types.typeID = '${typeID}';`
+    let query = `UPDATE Types SET typeName = '${typeName}', invulnerableAgainst = ${invAgainst}
+                 WHERE Types.typeID = ${typeID};`
 
     db.pool.query(query, (error, rows, fields) => {
         // check for errors
@@ -418,7 +442,7 @@ app.post('/pokemon_attacks-add', (req, res) => {
 
     // add the pokemon attack
     let query = `INSERT INTO Pokemon_Attacks (pokemonID, attackID)
-                    VALUES ('${pokemon}', ${attack});`
+                    VALUES (${pokemon}, ${attack});`
     db.pool.query(query, (error, rows, fields) => {
         // check for errors
         if (error) {

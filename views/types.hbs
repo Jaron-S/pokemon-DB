@@ -40,8 +40,11 @@
           }
         }
         function newType() { showform('insert'); }
-        function updateType(tID) {
-          document.getElementById('update-input-name').value = tID;
+        function updateType(tID, tName, invAgainst) {
+          document.getElementById('update-id-label').innerHTML = tID;
+          document.getElementById('update-typeID').value = tID;
+          document.getElementById('update-typeName').value = tName;
+          document.getElementById('update-invAgainst').value = invAgainst;
           showform('update');
         }
         function deleteType(tID, tName) {
@@ -74,11 +77,11 @@
     <tbody>
     {{#each data}}
     <tr data-value="{this.typeID}">
-      <td><button onClick="updateType({{this.typeID}})">Edit</button></td>
       <td><button onClick="deleteType({{this.typeID}}, '{{this.typeName}}')">Delete</button></td>
+      <td><button onClick="updateType({{this.typeID}}, '{{this.typeName}}', {{this.invulnerableAgainst}})">Edit</button></td>
       <td align="right">{{this.typeID}}</td>
       <td>{{this.typeName}}</td>
-      <td>{{this.invulnerableAgainst}}</td>
+      <td>{{this.invAgainstName}}</td>
     </tr>
     {{/each}}
   </tbody>
@@ -93,7 +96,7 @@
               <label> Name: </label> <input type="text" name="input-name">
               <label> Invulnerable Against: </label>
                 <select name="invulnerableAgainst">
-                  <option value=0>Select a type</option>
+                  <option value=0>None</option>
                   {{#each data}}
                   <option value="{{this.typeID}}">{{this.typeName}}</option>
                   {{/each}}
@@ -109,17 +112,14 @@
       <form method="POST" id="UpdateType" action="/types-update">
           <legend><strong>Update Type</strong></legend>
           <fieldset class="fields">
-            <label>Type: </label>
+            <label>Type ID: </label>
             <label id="update-id-label"></label>
-            <select name="input-name" id="update-input-name">
-              <option value=0>Select a type</option>
-              {{#each data}}
-              <option value="{{this.typeID}}">{{this.typeName}}</option>
-              {{/each}}
-            </select>
-            <label> Invulnerable Against: </label> 
-            <select name="input-invAgainst">
-              <option value=0>Select a type</option>
+            <input type="hidden" name="input-typeID" id="update-typeID">
+            <label>Name: </label>
+            <input type="text" name="input-name" id="update-typeName">
+            <label> Invulnerable Against: </label>
+            <select name="input-invAgainst" id="update-invAgainst">
+              <option value=0>None</option>
               {{#each data}}
               <option value="{{this.typeID}}">{{this.typeName}}</option>
               {{/each}}
