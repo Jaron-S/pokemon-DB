@@ -12,16 +12,19 @@
           document.getElementById('browse').style.display = 'none';
           document.getElementById('insert').style.display = 'block';
           document.getElementById('delete').style.display = 'none';
+          document.getElementById('search').style.display = 'none';
         }
         else if (dowhat == 'delete'){
           document.getElementById('browse').style.display = 'none';
           document.getElementById('insert').style.display = 'none';
           document.getElementById('delete').style.display = 'block';
+          document.getElementById('search').style.display = 'none';
         }
         else { //by default display browse
           document.getElementById('browse').style.display = 'block';
           document.getElementById('insert').style.display = 'none';
           document.getElementById('delete').style.display = 'none';
+          document.getElementById('search').style.display = 'block'
         }
       }
       function newPokemonAttack() { showform('insert'); }
@@ -106,12 +109,15 @@
   </form> 
 </div><!-- delete -->
 
-<h2>Search by Pokemon Name</h2>
-<p>Enter a Pokemon's name below to view its attacks.</p>
-<form id="search-pokemon" method='GET' action='/pokemon_attacks'>
-    <input type="text" name="name" id="name-search" placeholder="Enter name here">
-    <input type="submit">
-</form><!-- search -->
+<div id="search" style="display: block">
+  <h2>Search by Pokemon Name</h2>
+  <p>Enter a Pokemon's name below to view its attacks.</p>
+  <form id="search-pokemon" method='GET' action='/pokemon_attacks'>
+      <input type="text" name="name" id="name-search" placeholder="Enter name here">
+      <input type="submit">
+  </form><!-- search -->
+</div>
+
 
 </body>
 </html>
