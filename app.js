@@ -470,14 +470,47 @@ app.post('/generations-delete', (req, res) => {
 //              Pokemon Attacks Page
 // ---------------------------------------------
 // Load table
+// app.get('/pokemon_attacks', (req, res) => {
+//     let loadPokemonAttacks = `SELECT pa.pokemon_attackID,  p.pokemonName, a.attackName
+//                                 FROM Pokemon_Attacks pa
+//                                 LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
+//                                 LEFT JOIN Attacks a ON a.attackID = pa.attackID;`
+
+//     let loadPokemon = `SELECT pokemonID, pokemonName FROM Pokemon;`;
+//     let loadAttacks = `SELECT attackID, attackName FROM Attacks`;
+
+//     db.pool.query(loadPokemonAttacks, (error, rows, fields) => {
+//         let pokemonAttacks = rows;
+//         db.pool.query(loadPokemon, (error, rows, fields) => {
+//             let pokemon = rows;
+//             db.pool.query(loadAttacks, (error, rows, fields) => {
+//                 let attacks = rows;
+//                 res.render('pokemon_attacks', {data: pokemonAttacks, pokemon: pokemon, attacks: attacks});
+//             })
+//         })
+//     })
+// });
+
+// load table w/ search bar
 app.get('/pokemon_attacks', (req, res) => {
-    let loadPokemonAttacks = `SELECT pa.pokemon_attackID,  p.pokemonName, a.attackName
+    let loadPokemonAttacks;
+
+    if (req.query.name === undefined) {
+        loadPokemonAttacks = `SELECT pa.pokemon_attackID, p.pokemonName, a.attackName
                                 FROM Pokemon_Attacks pa
                                 LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
-                                LEFT JOIN Attacks a ON a.attackID = pa.attackID;`
+                                LEFT JOIN Attacks a ON a.attackID = pa.attackID;`;
+    }
+    else {
+        loadPokemonAttacks = `SELECT pa.pokemon_attackID, p.pokemonName, a.attackName FROM Pokemon_Attacks pa
+                                LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
+                                LEFT JOIN Attacks a ON a.attackID = pa.attackID
+                                WHERE pokemonName LIKE "${req.query.name}%"`
+    }
 
     let loadPokemon = `SELECT pokemonID, pokemonName FROM Pokemon;`;
     let loadAttacks = `SELECT attackID, attackName FROM Attacks`;
+    console.log(loadPokemonAttacks)
 
     db.pool.query(loadPokemonAttacks, (error, rows, fields) => {
         let pokemonAttacks = rows;
@@ -538,6 +571,38 @@ app.post('/pokemon_attacks-delete', (req, res) => {
         else {
             res.redirect('/pokemon_attacks');
         }
+    })
+});
+
+// Search bar
+app.get('/pokemon_attacks', (req, res) => {
+    let loadPokemonAttacks;
+
+    if (req.query.name === undefined) {
+        loadPokemonAttacks = `SELECT pa.pokemon_attackID,  p.pokemonName, a.attackName
+                                FROM Pokemon_Attacks pa
+                                LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
+                                LEFT JOIN Attacks a ON a.attackID = pa.attackID;`;
+    }
+    else {
+        loadPokemonAttacks = `SELECT pa.pokemon_attackID, pa.pokemonID, pa.attackID, p.pokemonName, FROM Pokemon_Attacks pa
+                                LEFT JOIN Pokemon p ON p.pokemonID = pa.pokemonID
+                                LEFT JOIN Attacks a ON a.attackID = pa.attackID
+                                WHERE pokemonName LIKE "${req.query.name}%"`
+    }
+
+    let loadPokemon = `SELECT pokemonID, pokemonName FROM Pokemon;`;
+    let loadAttacks = `SELECT attackID, attackName FROM Attacks`;
+
+    db.pool.query(loadPokemonAttacks, (error, rows, fields) => {
+        let pokemonAttacks = rows;
+        db.pool.query(loadPokemon, (error, rows, fields) => {
+            let pokemon = rows;
+            db.pool.query(loadAttacks, (error, rows, fields) => {
+                let attacks = rows;
+                res.render('pokemon_attacks', {data: pokemonAttacks, pokemon: pokemon, attacks: attacks});
+            })
+        })
     })
 });
 

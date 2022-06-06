@@ -54,7 +54,7 @@
       {{#each data}}
       <tr>
         <td><button onclick="deleteGeneration({{this.genID}}, '{{this.region}}')">Delete</button></td>
-        <td align="right" >1</td>
+        <td align="right" >{{this.genID}}</td>
         <td>{{this.region}}</td>
         <td>{{this.releaseDate}}</td>
       </tr>
