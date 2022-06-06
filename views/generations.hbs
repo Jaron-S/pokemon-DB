@@ -11,39 +11,27 @@
           if (dowhat == 'insert'){
             document.getElementById('browse').style.display = 'none';
             document.getElementById('insert').style.display = 'block';
-            document.getElementById('update').style.display = 'none';
-            document.getElementById('delete').style.display = 'none';
-          }
-          else if (dowhat == 'update'){
-            document.getElementById('browse').style.display = 'none';
-            document.getElementById('insert').style.display = 'none';
-            document.getElementById('update').style.display = 'block';
             document.getElementById('delete').style.display = 'none';
           }
           else if (dowhat == 'delete'){
             document.getElementById('browse').style.display = 'none';
             document.getElementById('insert').style.display = 'none';
-            document.getElementById('update').style.display = 'none';
-            document.getElementById('delete').style.display = 'block';
-          }
-          else if (dowhat == 'all'){
-            document.getElementById('browse').style.display = 'block';
-            document.getElementById('insert').style.display = 'block';
-            document.getElementById('update').style.display = 'block';
             document.getElementById('delete').style.display = 'block';
           }
           else { //by default display browse
             document.getElementById('browse').style.display = 'block';
             document.getElementById('insert').style.display = 'none';
-            document.getElementById('update').style.display = 'none';
             document.getElementById('delete').style.display = 'none';
           }
         }
         function newGeneration() { showform('insert'); }
-        function updateGeneration(pid) { showform('update'); }
-        function deleteGeneration(pid) { showform ('delete'); }
+        function deleteGeneration(gid, region) {
+          document.getElementById('delete-genID').value = gid;
+          document.getElementById('delete-genID-display').innerHTML = gid;
+          document.getElementById('delete-region-display').innerHTML = region;
+          showform ('delete');
+        }
         function browseGenerations() { showform ('browse'); }
-        function showAll() { showform ('all'); }
     </script>
   </head>
 
@@ -52,43 +40,39 @@
 
   <!-- body -->
   <div id="browse">
-  <p><a href='#' onClick="showAll()">Display all forms</a> </p>
+  <br>
   <table border="1" cellpadding="5">
-    <tr>
-      <th><button onClick="newGeneration()">+ New</button></th>
-      <th>id</th>
-      <th>Region</th>
-      <th>Release Date</th>
-    </tr>
-    <tr>
-      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
-      <td align="right" >1</td>
-      <td>Kanto</td>
-      <td>1998-09-28</td>
-    </tr>
-    <tr>
-      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
-      <td align="right" >2</td>
-      <td>Johto</td>
-      <td>2000-08-15</td>
-    </tr>
-    <tr>
-      <td><button onclick="deleteGeneration('this.genID')">Delete</button></td>
-      <td align="right" >3</td>
-      <td>Hoenn</td>
-      <td>2003-03-19</td>
-    </tr>
+    <thead>
+      <tr>
+        <th><button onClick="newGeneration()">+ New</button></th>
+        <th>id</th>
+        <th>Region</th>
+        <th>Release Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+      <tr>
+        <td><button onclick="deleteGeneration({{this.genID}}, '{{this.region}}')">Delete</button></td>
+        <td align="right" >1</td>
+        <td>{{this.region}}</td>
+        <td>{{this.releaseDate}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    
+    
     
   </table>
   <p>&nbsp;</p>
   </div><!-- browse -->
 
   <div id="insert">
-      <form method="POST" id="addGeneration">
+      <form method="POST" id="addGeneration" action="generations-add">
           <legend><strong>Add Generation</strong></legend>
             <fieldset class="fields">
-              <label> Region: </label> <input type="text" name="region">
-              <label> Release Date: </label> <input type="date" name="releaseDate">
+              <label> Region: </label> <input type="text" name="input-region">
+              <label> Release Date: </label> <input type="date" name="input-releaseDate">
             </fieldset>
             <input class="btn" type="submit" id="addGeneration" value="Add Generation">
             <input class="btn" type="button" value="Cancel" onClick="browseGenerations()">
@@ -96,30 +80,17 @@
   </div><!-- insert -->
 
   <p>&nbsp;</p>
-  <div id="update">
-      <form method="POST" id="UpdateGeneration">
-          <legend><strong>Update Generation</strong></legend>
-          <fieldset class="fields">
-            <label> Region: </label> <input type="text" name="region">
-            <label> Release Date: </label> <input type="date" name="releaseDate">
-          </fieldset>
-            <input class="btn" type="submit" id="UpdateSaveGeneration" value="Save Changes">
-            <input class="btn" type="button" value="Cancel" onClick="browseGenerations()">
-    </form> 
-  </div><!-- update -->
-
-  <p>&nbsp;</p>
   <div id="delete" style="display: block">
-    <form method="POST" id="deleteGeneration">
+    <form method="POST" id="deleteGeneration" action="generations-delete">
         <legend><strong>Delete Generation</strong></legend>
             <fieldset class="fields">
               <p>Are you sure you wish to delete the following?</p>
-              <input type="hidden" name="genID" id="deletegenID" value="1">
-              <label><strong>ID:</strong></label> 1 </p>
-              <label> <strong>Region:</strong> </label> Kanto
+              <input type="hidden" name="input-genID" id="delete-genID" value="1">
+              <label><strong>ID:</strong></label> <label id="delete-genID-display"></label> <br>
+              <label> <strong>Region:</strong> </label> <label id="delete-region-display"></label>
             </fieldset>
           <input class="btn" type="submit" id="DeletePokemon" value="Delete Generation">
-          <input class="btn" type="button" value="cancel" onClick="browseGenerations()">
+          <input class="btn" type="button" value="Cancel" onClick="browseGenerations()">
     </form> 
   </div><!-- delete -->
 

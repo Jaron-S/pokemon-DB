@@ -407,9 +407,64 @@ app.post('/types-delete', (req, res) => {
 
 //              Generations Page
 // ---------------------------------------------
+// Load table
 app.get('/generations', (req, res) => {
-    res.render('generations');
+    let loadGens = `SELECT genID, region, releaseDate FROM Generations;`
+
+    db.pool.query(loadGens, (error, rows, fields) => {
+        let gens = rows;
+        res.render('generations', {data: gens});
+    })
+    
 });
+
+// Add generation
+app.post('/generations-add', (req, res) => {
+    // Collect the data
+    let data = req.body;
+    let region = data['input-region'];
+    let releaseDate = data['input-releaseDate'];
+
+    console.log(releaseDate)
+
+    // add the generation
+    let query = `INSERT INTO Generations (region, releaseDate)
+                    VALUES ('${region}', '${releaseDate}');`
+    db.pool.query(query, (error, rows, fields) => {
+        // check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/generations')
+        }
+    })
+});
+
+// Delete generation
+app.post('/generations-delete', (req, res) => {
+    let data = req.body;
+    let id = parseInt(data['input-genID']);
+
+    if (isNaN(id)) {
+        id = 'NULL';
+    }
+
+    // delete the generation
+    query = `DELETE FROM Generations WHERE genID = ?;`
+    db.pool.query(query, [id], (error, rows, fields) => {
+        // check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/generations');
+        }
+    })
+});
+
 
 
 //              Pokemon Attacks Page

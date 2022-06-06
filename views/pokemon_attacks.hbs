@@ -18,11 +18,6 @@
           document.getElementById('insert').style.display = 'none';
           document.getElementById('delete').style.display = 'block';
         }
-        else if (dowhat == 'all'){
-          document.getElementById('browse').style.display = 'block';
-          document.getElementById('insert').style.display = 'block';
-          document.getElementById('delete').style.display = 'block';
-        }
         else { //by default display browse
           document.getElementById('browse').style.display = 'block';
           document.getElementById('insert').style.display = 'none';
@@ -38,7 +33,6 @@
         showform ('delete');
       }
       function browsePokemonAttacks() { showform ('browse'); }
-      function showAll() { showform ('all'); }
   </script>
   </head>
 
@@ -47,7 +41,7 @@
 
 <!-- body -->
 <div id="browse">
-<p><a href='#' onClick="showAll()">Display all forms</a> </p>
+<br>
 
 <table border="1" cellpadding="5">
   <thead>
